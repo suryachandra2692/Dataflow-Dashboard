@@ -1,0 +1,435 @@
+{%extends 'base.html'%}
+{%load static%}
+{% load use_dict_in_template%}
+{%block title%}Dashboard{%endblock%}
+{%block page_header%}Dashboard{%endblock%}
+{%block content%}
+  <div class="row">
+    <div class="col-lg-12">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ping Dashboard</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Internet Exchange Dashboard</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Data Flow Dashboard</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Countries</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{country}}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Annual) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Networks</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{network}}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tasks Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Links</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{web_link}}</div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pings</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ping_time}}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Country Vs Ping</h6>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div id="regions_div" style="width: 1000px; height: 600px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">WebSite Vs Ping</h6>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <ul class="list-group">
+                    {% for i in urls_list %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      {{i.web_link}}
+                      <span class="badge badge-primary badge-pill">{{i.count}}</span>
+                    </li>
+                    {%endfor%}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="row">
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-6 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Countries</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">33</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Earnings (Annual) Card Example -->
+                <div class="col-xl-6 col-md-6 mb-4">
+                  <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Hours Reading</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">168</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">Data Exchange</div>
+                  <div class="card-body">
+                    <div id="regions_divv"> </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">Exchange Data</div>
+                  <div class="card-body table-responsive" >
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>S No.</th>
+                      <th>Time</th>
+                      {% for country in all_country %}
+                        <th>{{country}}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    {% for i in data1%}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td>{{i.at_time}}</td>
+                      {% for con  in all_country%}
+                        <td>
+                            {{i.country_data | get_dict_value:con | floatformat:3 }}
+                        </td>
+                      {%endfor%}
+
+                    </tr>
+                   {% endfor %}
+
+                  </tbody>
+                </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            <div class="row">
+                  <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Countries</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{country}}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Annual) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total National Reading</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_national_reading}} GB/s</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tasks Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Intra Reading</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{total_intra_reading}} GB/s</div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Extra Reading</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_extra_reading}} GB/s</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-12 col-md-12 ">
+                    <div class="card shadow h-100 py-2">
+                        <div class="card-header ">
+                          <h6 class="m-0 font-weight-bold text-primary">Master Data Visualization</h6>
+
+                          </div>
+                          <div class="card-body">
+                              <canvas id="myChart"></canvas>
+                          </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+          </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+<script type="text/javascript">
+
+
+       google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+      var dat =  [['Country', 'Region', {role: 'tooltip', p:{html:true}}]]
+      for(var i=0;i<{{country_vs_ping | safe}}.length; i++){
+        dat.push({{country_vs_ping | safe}}[i])
+      }
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable(
+          dat
+        );
+
+        var options2 = {
+          magnifyingGlass: {enable: true, zoomFactor: 7.5},
+          region:150,
+          displayMode: 'regions',
+          keepAspectRatio:true,
+          colors:[ 'blue'],
+          tooltip: {
+            isHtml: true
+          }
+
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        chart.draw(data, options2);
+      }
+
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap1);
+      var dat1 =  [['Country', 'Data Exchanged At 192 Hrs']]
+      for(var i=0;i<{{country_vs_exchange | safe}}.length; i++){
+        dat1.push({{country_vs_exchange | safe}}[i])
+      }
+
+      function drawRegionsMap1() {
+        var data = google.visualization.arrayToDataTable(
+          dat1
+        );
+
+        var options = {
+          magnifyingGlass: {enable: true, zoomFactor: 7.5},
+          region:150,
+          displayMode: 'regions',
+          keepAspectRatio:true,
+          colors:[ 'blue'],
+
+
+        };
+
+        var chart1 = new google.visualization.GeoChart(document.getElementById('regions_divv'));
+        chart1.draw(data, options);
+      }
+    </script>
+
+<script>
+  new Chart(document.getElementById("myChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: {{labels | safe}},
+      datasets: [
+        {
+            label: "National",
+            backgroundColor: "#2196f3",
+            data: {{national | safe}},
+
+        },
+        {
+            label: "Intra",
+            backgroundColor: "#8bc34a",
+            data: {{intra | safe}}
+        },
+        {
+            label: "Extra",
+            backgroundColor: "#e91e63",
+            data: {{extra | safe}}
+        }
+      ]
+    },
+    options: {
+      legend:{
+        display: true,
+        legendText: ["National", "Intra", "Extra"]
+      },
+      scales: {
+        xAxes:[{
+          stacked: true
+        }],
+        yAxes:[{
+          stacked: true
+        }],
+      }
+    }
+  });
+
+  $(document).ready(function(){
+        $("#dataTable").DataTable()
+    })
+</script>
+
+{%endblock%}
+

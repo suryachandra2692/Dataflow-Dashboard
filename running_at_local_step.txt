@@ -1,0 +1,11 @@
+Pre Requisite:
+    Python 3+
+
+Installation/Run Steps:
+
+    Step 1 : Open Terminal or Powershell
+    Step 2 : Go To "dashboard" directory
+    Step 3 : Run Command "pip install -r requirement.txt"
+    Step 4 : Run Django Server By Using Command "python manage.py runserver"
+    Step 5 : Open Browser And Hit "http://localhost:8000"
+

@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Ping Data Analysis{%endblock%}
+{%block page_header%} Ping Data Analysis {%endblock%}
+
+{%block content%}
+<div class="d-flex flex-column">
+    <div class="">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Ping vs Country</h6>
+                </span>
+
+
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/ping-by-country.png'%} " alt="Ping data vs Country">
+            </div>
+          </div>
+    </div>
+
+      <div class="">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Ping vs Cloud Service Provider</h6>
+                </span>
+
+
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/ping-by-provider.png'%} " alt="Ping data vs Country">
+            </div>
+          </div>
+    </div>
+
+      <div class="">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Ping vs Country vs Provider </h6>
+                </span>
+
+
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/ping-by-country-provider.png'%} " alt="Ping data vs Country">
+            </div>
+          </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#tabe").DataTable()
+    })
+</script>
+{%endblock%}

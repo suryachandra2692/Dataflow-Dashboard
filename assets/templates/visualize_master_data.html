@@ -1,0 +1,104 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Data Flow Visualisation{%endblock%}
+{%block page_header%}Data Flow Visualisation{%endblock%}
+{%block content%}
+    <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-12 col-md-12 ">
+              <div class="card shadow h-100 py-2">
+                  <div class="card-header ">
+                    <h6 class="m-0 font-weight-bold text-primary">Master Data Visualization</h6>
+
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myChart"></canvas>
+                    </div>
+              </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12">
+            <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Country Wise Percent</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 mb-4">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Country Name</th>
+                                <th>Country Code</th>
+                                <th>National %</th>
+                                <th>Intra %</th>
+                                <th>Extra %</th>
+                            </tr>
+                            {%for i in master_data%}
+                            <tr>
+                                <td>{{i.country_name}} </td>
+                                <td>{{i.country_code}} </td>
+                                <td>{{i.national}} %</td>
+                                <td>{{i.intra}} %</td>
+                                <td>{{i.extra}} %</td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+    </div>
+<script>
+new Chart(document.getElementById("myChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: {{labels | safe}},
+      datasets: [
+        {
+            label: "National",
+            backgroundColor: "#2196f3",
+            data: {{national | safe}},
+
+        },
+        {
+            label: "Intra",
+            backgroundColor: "#8bc34a",
+            data: {{intra | safe}}
+        },
+        {
+            label: "Extra",
+            backgroundColor: "#e91e63",
+            data: {{extra | safe}}
+        }
+      ]
+    },
+    options: {
+      legend:{
+        display: true,
+        legendText: ["National", "Intra", "Extra"]
+      },
+      scales: {
+        xAxes:[{
+          stacked: true
+        }],
+        yAxes:[{
+          stacked: true
+        }],
+      }
+    }
+  });
+
+</script>
+
+{%endblock%}
+
+
+
+

@@ -1,0 +1,160 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Data Flow Independent Variables Impact{%endblock%}
+{%block page_header%}
+    Data Flow Regression Analysis<br>
+    <small style="font-size:.5em">Impact of independent variables on Data Flow</small>
+{%endblock%}
+
+{%block content%}
+<div class="d-flex flex-column">
+    <div class="">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Correlation coefficient vs Independent Variable</h6>
+                </span>
+
+
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/dataflow-influencing-vars.png'%} " alt="Independent variables influence on data flow">
+            </div>
+          </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Correlation coefficient of Influencing Independent Variables</h6>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 mb-4">
+                        <table class="table table-striped " id="inftable">
+                            <thead>
+                                <tr>
+                                    <th>Independent Variable</th>
+                                    <th>Correlation coefficient (r)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {%for k, v in influencing_vars.items%}
+                            <tr>
+                                <td>{{k}}</td>
+                                <td>{{v | floatformat:6}}</td>
+                            </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Correlation coefficient of Independent Variables</h6>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 mb-4">
+                        <table class="table table-striped " id="tabe">
+                            <thead>
+                                <tr>
+                                    <th>Independent Variable</th>
+                                    <th>Correlation coefficient (r)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {%for k, v in relations.items%}
+                            <tr>
+                                <td>{{k}}</td>
+                                <td>{{v | floatformat:6}}</td>
+                            </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+    </div>
+
+    </div>
+
+    <div class="card-columns">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Linear Regression: Data Flow vs Electricity</h6>
+                </span>
+
+
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/data-flow-vs-electricity.png'%} " alt="Independent variables influence on data flow">
+            </div>
+          </div>
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Linear Regression: Data Flow vs Labour</h6>
+                </span>
+
+
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/data-flow-vs-labour-force.png'%} " alt="Independent variables influence on data flow">
+            </div>
+          </div>
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Data Flow vs Cars</h6>
+                </span>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+<!--              <div id="regions_div" style="width: 900px; height: 500px;"></div>-->
+                <img class="img-fluid" src="{% static 'img/data-flow-vs-cars.png'%} " alt="Independent variables influence on data flow">
+            </div>
+          </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#tabe").DataTable()
+    })
+</script>
+{%endblock%}

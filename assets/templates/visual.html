@@ -1,0 +1,154 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Dashboard{%endblock%}
+{%block page_header%}Ping Visualization{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <span style="display:block">
+                    <h6 class="m-0 font-weight-bold text-primary">Select Country</h6>
+                </span>
+
+                <span style="display:block;display:block">
+                    <label>Cloud Provider</label>
+                    <select class="form-control form-control-user" id="provider" placeholder="First Name" onchange="reload_page()">
+                        <option value="">All</option>
+                        {%for provider in providers%}
+                            {%if selected_provider == provider.provider%}
+                                <option value="{{provider.provider}}" selected>{{provider.provider}}</option>
+                            {%else%}
+                                <option value="{{provider.provider}}">{{provider.provider}}</option>
+                            {%endif%}
+                        {%endfor%}
+                    </select>
+                </span>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div id="regions_div" style="width: 900px; height: 500px;"></div>
+            </div>
+          </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card  shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">{{ country }} Ping Data</h6>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Recent Ping</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{latest_ping}}</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                    <div class="col-xl-6 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Last 7 Days Avg.</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{7_day_avg}}</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 mb-4">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Lat</th>
+                                <th>Long</th>
+                                <th>Provider</th>
+                                <th>Ping</th>
+                            </tr>
+                            {%for i in selected_7_day_data%}
+                            <tr>
+                                <td>{{i.lat}}</td>
+                                <td>{{i.long}}</td>
+                                <td>{{i.provider}}</td>
+                                <td>{{i.ping_time}}</td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+      function reload_page(){
+        var provider = document.getElementById('provider').value
+        var urlss = new URLSearchParams(window. location. search)
+        var region = urlss.get('country_code');
+        window.location.href='/ping-visualisation?country_code='+region+'&provider='+provider
+      }
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+      var dat =  [['Country', 'Region', {role: 'tooltip', p:{html:true}}]]
+      for(var i=1;i<{{country_vs_ping | safe}}.length; i++){
+        dat.push({{country_vs_ping | safe}}[i])
+      }
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable(
+          dat
+        );
+
+        var options = {
+          magnifyingGlass: {enable: true, zoomFactor: 7.5},
+          region:150,
+          displayMode: 'regions',
+          keepAspectRatio:true,
+          colors:['blue'],
+          tooltip: {
+            isHtml: true
+          }
+
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        google.visualization.events.addListener(chart, 'regionClick', show_data);
+
+        chart.draw(data, options);
+      }
+
+      function show_data(e){
+        //var urlss = new URLSearchParams(window. location. search)
+        //var provider = urlss.get('provider');
+        var provider = document.getElementById('provider').value
+        window.location.href='/ping-visualisation?country_code='+e.region+'&provider='+provider
+      }
+</script>
+{%endblock%}
